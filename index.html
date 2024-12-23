@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Bot Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #282828;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Control Your Discord Bot</h1>
+        <button id="helloBtn">Send Hello Command</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById('helloBtn').addEventListener('click', function() {
+            // Send the request to the backend to trigger the bot
+            fetch('http://localhost:3000/trigger-bot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command: 'hello' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('status').textContent = 'Command triggered: ' + data.message;
+            })
+            .catch(error => {
+                document.getElementById('status').textContent = 'Error: ' + error.message;
+            });
+        });
+    </script>
+</body>
+</html>
